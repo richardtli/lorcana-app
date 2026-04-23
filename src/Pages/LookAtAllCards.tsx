@@ -40,7 +40,7 @@ export default function LookAtAllCards() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div>
+        <div className='cards-display-container'>
             {CardElementsArray}
         </div>
     );

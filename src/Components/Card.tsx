@@ -11,12 +11,12 @@ export default function Card(props: CardType){
     const [src, setSrc] = useState<string | null>(null)
     useEffect(() => {
         const path = props.storage_image_path
-        console.log(path)
         const { data } = supabase.storage.from('card-images').getPublicUrl(path)
         setSrc(data.publicUrl)
   }, [])
 
   if (!src) return null
-  return <img src={src} alt="From bucket" />
+  return <img className='card-thumbnail' src={src} alt="From bucket"   loading="lazy"
+  decoding="async"/>
 }
 

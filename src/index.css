@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.card-display-container{
+    display: grid;
+}
+
+.card-thumbnail {
+    width: 100px;
+}
