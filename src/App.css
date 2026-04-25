@@ -1,5 +1,9 @@
 @import url('https://googleapis.com');
 
+:root {
+    --test-border: 3px solid black;
+}
+
 body{
     font-family: 'Roboto'
 }
@@ -16,6 +20,7 @@ nav {
     position: sticky;
     top: 0;
     height: 100vh;
+    border: var(--test-border)
 }
 
 a,
@@ -29,4 +34,26 @@ a:visited {
 
 .card-thumbnail {
     width: 100px;
+}
+
+.card-page-info-container{
+    display: flex;
+    padding: 10px;
+    border: var(--test-border)
+}
+
+.card-page-image {
+    width: 200px;
+    padding: 10px;
+    border: var(--test-border)
+}
+
+.card-text-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-name{
+    font-size: 3rem;
+    font-weight: bold;
 }

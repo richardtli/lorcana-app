@@ -2,7 +2,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState, type JSX } from "react";
 import type { CardType } from "../types/card";
-import Card from "../Components/Card";
+import CardThumbnail from "../Components/CardThumbnail";
 
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_URL!,
@@ -34,7 +34,7 @@ export default function LookAtAllCards() {
 
 
     const CardElementsArray: JSX.Element[]= cardsArray.map((card: CardType) => {
-        return (<Card {...card}/>)
+        return (<CardThumbnail {...card}/>)
     })
     
     if (loading) return <div>Loading...</div>;
