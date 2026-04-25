@@ -35,6 +35,24 @@ export default function Filters({ cardData }: CardDataProps) {
   const selectedColors = searchParams.getAll("color");
 
   const thisFranchise = cardData.franchise;
+
+  const sortValue = searchParams.get("sort") ?? "";
+
+function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  const value = event.target.value;
+
+  setSearchParams((currentParams) => {
+    const nextParams = new URLSearchParams(currentParams);
+
+    if (value) {
+      nextParams.set("sort", value);
+    } else {
+      nextParams.delete("sort");
+    }
+
+    return nextParams;
+  });
+}
   function toggleFranchise() {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
@@ -87,6 +105,11 @@ export default function Filters({ cardData }: CardDataProps) {
         From this Franchise
       </button>
       <div className="ink-buttons-container">{iconElements}</div>
+        <select value={sortValue} onChange={handleSortChange}>
+            <option value="">Default</option>
+            <option value="name_asc">Name A-Z</option>
+            <option value="name_desc">Name Z-A</option>
+        </select>
     </div>
   );
 }
