@@ -26,6 +26,7 @@ nav {
 a,
 a:visited {
     text-decoration: none;
+    font-size: 1.5rem;
 }
 
 .card-display-container{
@@ -56,4 +57,13 @@ a:visited {
 .card-name{
     font-size: 3rem;
     font-weight: bold;
+}
+
+.synergies-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-button{
+  width: fit-content;
 }
