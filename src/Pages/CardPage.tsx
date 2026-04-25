@@ -12,6 +12,7 @@ const supabase = createClient(
 );
 
 export default function CardPage(): JSX.Element | null{
+    const QUERY_LIMIT = 100
     const { id } = useParams()
     const [cardData, setCardData] = useState<null | CardType>(null)
     const [searchParams, setSearchParams] = useSearchParams()
@@ -26,19 +27,34 @@ export default function CardPage(): JSX.Element | null{
         setCardData(data)
     }
     async function getRelatedCards(){
-        let query =  supabase.from("lorcana_cards").select("*")
-        searchParams.forEach((value, key) => {
-        query = query.eq(key, value);
-        });
-        const { data, error } = await query;
+    let query = supabase.from("lorcana_cards").select("*");
 
-        if (error) {
-            console.error(error);
-            setRelatedCardObjects([]);
-        } else {
-            setRelatedCardObjects(data ?? []);
-        }
+    const selectedColors = searchParams.getAll("color");
+
+    searchParams.forEach((value, key) => {
+    if (key !== "color") {
+        query = query.eq(key, value);
     }
+    });
+
+    if (selectedColors.length === 1) {
+    query = query.eq("color", selectedColors[0]);
+    }
+
+    if (selectedColors.length > 1) {
+    query = query.in("color", selectedColors);
+    }
+
+    const { data, error } = await query.limit(QUERY_LIMIT);
+
+
+            if (error) {
+                console.error(error);
+                setRelatedCardObjects([]);
+            } else {
+                setRelatedCardObjects(data ?? []);
+            }
+        }
     
     useEffect(()=> {
         getRelatedCards()

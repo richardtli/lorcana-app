@@ -64,6 +64,33 @@ a:visited {
   flex-direction: column;
 }
 
+.filters-bar {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .filter-button{
   width: fit-content;
+  height: fit-content;
 }
+
+.ink-buttons-container{
+    display: flex;
+    gap: 5px;
+}
+
+.ink-buttons-container > *:hover{
+    cursor: pointer;
+}
+
+.ink-buttons-container > .selected{
+    background-color: red;
+}
+
+.ink-icon {
+  width: 50px;
+  height: auto;
+}
+
