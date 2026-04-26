@@ -1,0 +1,1 @@
+export const lorcana_cards_table = import.meta.env.VITE_LORCANA_CARDS_TABLE_NAME

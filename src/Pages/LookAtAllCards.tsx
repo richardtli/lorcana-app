@@ -1,13 +1,9 @@
 // src/App.tsx (or any component file)
-import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState, type JSX } from "react";
 import type { CardType } from "../types/card";
 import CardThumbnail from "../Components/CardThumbnail";
-
-const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL!,
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY!,
-);
+import { supabase } from "../lib/supabase";
+import { lorcana_cards_table } from "../lib/table_names";
 
 
 
@@ -17,7 +13,7 @@ export default function LookAtAllCards() {
 
     const fetchCards = async () => {
         setLoading(true);
-        const { data, error } = await supabase.from("lorcana_cards").select("*");
+        const { data, error } = await supabase.from(lorcana_cards_table).select("*");
         if (error) {
             console.error(error);
             setCardsArray([]);

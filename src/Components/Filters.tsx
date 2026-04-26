@@ -38,6 +38,8 @@ export default function Filters({ cardData }: CardDataProps) {
 
   const sortValue = searchParams.get("sort") ?? "";
 
+  const franchiseSelected = searchParams.get("franchise") === thisFranchise;
+
 function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
   const value = event.target.value;
 
@@ -101,9 +103,14 @@ function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
 
   return (
     <div className="filters-bar">
-      <button className="filter-button" onClick={toggleFranchise}>
-        From this Franchise
-      </button>
+<button
+  className={classNames("filter-button", {
+    selected: franchiseSelected,
+  })}
+  onClick={toggleFranchise}
+>
+  From this Franchise
+</button>
       <div className="ink-buttons-container">{iconElements}</div>
         <select value={sortValue} onChange={handleSortChange}>
             <option value="">Default</option>

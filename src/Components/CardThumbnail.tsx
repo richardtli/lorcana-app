@@ -8,7 +8,8 @@ export default function Card(props: CardType){
   const imagePathFull = `${imagePathBaseURL}/${props.storage_image_path}`
   return (
     <Link to={`../card/${props.unique_id}?${searchParams.toString()}`}>
-      <img className='card-thumbnail' src={imagePathFull} alt="card-image" />
+      <img className='card-thumbnail' src={imagePathFull} alt="card-image" loading="lazy"
+  decoding="async" />
     </Link>
   )
 }

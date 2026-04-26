@@ -34,13 +34,19 @@ a:visited {
 }
 
 .card-thumbnail {
-    width: 100px;
+  width: 200px;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
 }
 
-.card-page-info-container{
-    display: flex;
-    padding: 10px;
-    border: var(--test-border)
+.card-page-info-container {
+  display: flex;
+  padding: 10px;
+  border: var(--test-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
 }
 
 .card-page-image {
@@ -93,4 +99,11 @@ a:visited {
   width: 50px;
   height: auto;
 }
+
+.filter-button.selected {
+  background-color: #333;
+  color: white;
+}
+
+
 

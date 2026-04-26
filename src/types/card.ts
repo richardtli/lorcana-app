@@ -7,8 +7,10 @@ export type CardType = {
   card_num: number
   name: string
   full_name: string
+  base_name: string
+  secondary_name: string
   type: string
-  color: string
+  color: string[]
   rarity: string
   artist: string
   franchise: string
@@ -24,6 +26,9 @@ export type CardType = {
   strength: number
   willpower: number
   image_url: string
+  shiftable: boolean
+  shift_cost: number
+  shift_from: string[]
   storage_bucket: string
   storage_image_path: string
   date_added: string

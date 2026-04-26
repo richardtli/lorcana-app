@@ -1,18 +1,14 @@
 import { useEffect, useState, type JSX } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type { CardType } from "../types/card";
-import { createClient } from "@supabase/supabase-js";
 import CardData from "../Components/CardData";
 import Synergies from "../Components/Synergies";
 import Filters from "../Components/Filters";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY!,
-);
+import { supabase } from "../lib/supabase";
+import { lorcana_cards_table } from "../lib/table_names";
 
 export default function CardPage(): JSX.Element | null {
-  const QUERY_LIMIT = 100;
+  const QUERY_LIMIT = 1000;
   const { id } = useParams();
   const [cardData, setCardData] = useState<null | CardType>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,14 +16,16 @@ export default function CardPage(): JSX.Element | null {
 
   async function getCardData() {
     const { data, error } = await supabase
-      .from("lorcana_cards")
+      .from(lorcana_cards_table)
       .select("*")
       .eq("unique_id", id)
       .maybeSingle();
     setCardData(data);
+    console.log(data);
   }
+
   async function getRelatedCards() {
-    let query = supabase.from("lorcana_cards").select("*");
+    let query = supabase.from(lorcana_cards_table).select("*");
 
     const selectedColors = searchParams.getAll("color");
 
@@ -38,11 +36,11 @@ export default function CardPage(): JSX.Element | null {
     });
 
     if (selectedColors.length === 1) {
-      query = query.eq("color", selectedColors[0]);
+      query = query.contains("color", [selectedColors[0]]);
     }
 
     if (selectedColors.length > 1) {
-      query = query.in("color", selectedColors);
+      query = query.overlaps("color", selectedColors);
     }
 
     const sortValue = searchParams.get("sort");
