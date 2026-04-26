@@ -30,7 +30,7 @@ export default function LookAtAllCards() {
 
 
     const CardElementsArray: JSX.Element[]= cardsArray.map((card: CardType) => {
-        return (<CardThumbnail {...card}/>)
+        return (<CardThumbnail card={card}/>)
     })
     
     if (loading) return <div>Loading...</div>;

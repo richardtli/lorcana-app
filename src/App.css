@@ -30,7 +30,9 @@ a:visited {
 }
 
 .card-display-container{
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 12px
 }
 
 .card-thumbnail {
