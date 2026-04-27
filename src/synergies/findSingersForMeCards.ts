@@ -22,7 +22,7 @@ let query = supabase
 if (!selectedCard.can_sing_together) {
   query = query
     .lt("cost", selectedCost)
-    .gte("sing_value", selectedCost);
+    .gte("sing_number", selectedCost);
 }
     
 

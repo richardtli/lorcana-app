@@ -12,7 +12,8 @@ import findShiftFromCards from "../synergies/findShiftFromCards";
 import findPartnerCards from "../synergies/findPartnerCards";
 import findSongsForMeCards from "../synergies/findSongsForMeCards";
 import findSingersForMeCards from "../synergies/findSingersForMeCards";
-import findMentionsPrincessCards from "../synergies/findMentionsPrincessCards";
+import findMentionsOfClassificationCards from "../synergies/findMentionsOfClassificationCards";
+import { LORCANA_CLASSIFICATIONS } from "../utils/classificationsArray";
 
 export default function CardPage(): JSX.Element | null {
   const { id } = useParams();
@@ -36,39 +37,46 @@ export default function CardPage(): JSX.Element | null {
     const partnerCards = await findPartnerCards(selectedCard, searchParams)
     const songsForMeCards = await findSongsForMeCards(selectedCard, searchParams)
     const singersForMeCards = await findSingersForMeCards(selectedCard, searchParams)
-    const mentionsPrincessCards = await findMentionsPrincessCards(selectedCard, searchParams)
+    const mentionsPrincessCards = await findMentionsOfClassificationCards(selectedCard, searchParams, 'Princess')
 
+const classificationsToSynergySection = await Promise.all(
+  LORCANA_CLASSIFICATIONS.map(async (classification) => {
+    return {
+      synergyName: classification,
+      cards: await findMentionsOfClassificationCards(
+        selectedCard,
+        searchParams,
+        classification,
+      ),
+    };
+  }),
+);
 
+const sections: SynergySection[] = [
+  {
+    synergyName: "Shifts Into",
+    cards: shiftIntoCards,
+  },
+  {
+    synergyName: "Shifts From",
+    cards: shiftFromCards,
+  },
+  {
+    synergyName: "Partners",
+    cards: partnerCards,
+  },
+  {
+    synergyName: "Songs for Me",
+    cards: songsForMeCards,
+  },
+  {
+    synergyName: "Singers for Me",
+    cards: singersForMeCards,
+  },
+  ...classificationsToSynergySection,
+];
 
-    const sections: SynergySection[] = [
-      {
-        synergyName: "Shifts Into",
-        cards: shiftIntoCards,
-      },
-      {
-        synergyName: 'Shifts From',
-        cards: shiftFromCards
-      },
-      {
-        synergyName: 'Partners',
-        cards: partnerCards
-      },
-      {
-        synergyName: 'Songs for Me',
-        cards: songsForMeCards
-      },
-      {
-        synergyName: 'Singers for Me',
-        cards: singersForMeCards
-      },
-      {
-        synergyName: 'Princess Power',
-        cards: mentionsPrincessCards
-      }
-
-    ];
-
-    setSynergySectionsArray(sections);
+setSynergySectionsArray(sections);
   }
 
   async function getSelectedCardData(): Promise<CardType | null> {
