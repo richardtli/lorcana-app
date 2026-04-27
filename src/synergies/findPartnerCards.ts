@@ -2,17 +2,30 @@ import type { CardType } from "../types/card";
 import { supabase } from "../lib/supabase";
 import { lorcana_cards_table } from "../lib/table_names";
 
-export default async function findShiftIntoCards(
+export default async function findPartnerCards(
   selectedCard: CardType,
   searchParams: URLSearchParams,
 ): Promise<CardType[]> {
-  let query = supabase
-    .from(lorcana_cards_table)
-    .select("*")
-    .eq("base_name", selectedCard.base_name)
-    .neq("unique_id", selectedCard.unique_id);
 
-  query = query.eq("shiftable", 'true');
+
+const mentionedNames = selectedCard.specific_mentions ?? [];
+
+let query = supabase
+  .from(lorcana_cards_table)
+  .select("*")
+  .or(
+    [
+      mentionedNames.length > 0
+        ? `base_name.in.(${mentionedNames.map((name) => `"${name}"`).join(",")})`
+        : null,
+      `specific_mentions.cs.{"${selectedCard.base_name}"}`,
+    ]
+      .filter(Boolean)
+      .join(","),
+  )
+  .neq("unique_id", selectedCard.unique_id);
+
+    
 
   const franchise = searchParams.get("franchise");
 

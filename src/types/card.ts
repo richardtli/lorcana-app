@@ -33,4 +33,5 @@ export type CardType = {
   storage_image_path: string
   date_added: string
   date_modified: string
+  specific_mentions: string[]
 }

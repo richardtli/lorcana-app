@@ -8,6 +8,8 @@ import { supabase } from "../lib/supabase";
 import { lorcana_cards_table } from "../lib/table_names";
 import type { SynergySection } from "../types/synergysectiontype";
 import findShiftIntoCards from "../synergies/findShiftIntoCards";
+import findShiftFromCards from "../synergies/findShiftFromCards";
+import findPartnerCards from "../synergies/findPartnerCards";
 
 export default function CardPage(): JSX.Element | null {
   const { id } = useParams();
@@ -27,12 +29,24 @@ export default function CardPage(): JSX.Element | null {
 
   async function getAllSynergySections(selectedCard: CardType) {
     const shiftIntoCards = await findShiftIntoCards(selectedCard, searchParams);
+    const shiftFromCards = await findShiftFromCards(selectedCard, searchParams)
+    const partnerCards = await findPartnerCards(selectedCard, searchParams)
 
     const sections: SynergySection[] = [
       {
-        synergyName: "Shifts",
+        synergyName: "Shifts Into",
         cards: shiftIntoCards,
       },
+      {
+        synergyName: 'Shifts From',
+        cards: shiftFromCards
+      },
+
+        {
+        synergyName: 'Partners',
+        cards: partnerCards
+      }
+
     ];
 
     setSynergySectionsArray(sections);

@@ -1,5 +1,5 @@
 export const SynergiesForCharactersNames: string[] = [
-    'Shift From',
     'Shift Into',
+    'Shift From',
     'Partners',
 ]
