@@ -2,24 +2,25 @@ import type { CardType } from "../types/card";
 import { supabase } from "../lib/supabase";
 import { lorcana_cards_table } from "../lib/table_names";
 
-export default async function findPartnerCards(
+export default async function findSongsForMeCards(
   selectedCard: CardType,
   searchParams: URLSearchParams,
 ): Promise<CardType[]> {
 
+    if(!selectedCard.is_a_singer){
+        return []
+    }
+    const selectedCost = selectedCard.cost
+    const selectedSingNumber = selectedCard.sing_number
 
-const mentionedNames = selectedCard.specific_mentions ?? [];
-
-const partnerFilters = [
-  ...mentionedNames.map((name) => `base_name.eq."${name}"`),
-  `specific_mentions.cs.{"${selectedCard.base_name}"}`,
-];
 
 let query = supabase
   .from(lorcana_cards_table)
   .select("*")
-  .or(partnerFilters.join(","))
-  .neq("unique_id", selectedCard.unique_id);
+  .eq("type", "Action - Song")
+  .or(
+    `and(can_sing_together.eq.false,cost.gt.${selectedCost},cost.lte.${selectedSingNumber}),and(can_sing_together.eq.true,cost.gt.${selectedCost})`,
+  );
 
 
     

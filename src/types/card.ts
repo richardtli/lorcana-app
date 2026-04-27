@@ -34,4 +34,7 @@ export type CardType = {
   date_added: string
   date_modified: string
   specific_mentions: string[]
+  is_a_singer: boolean
+  sing_value: number
+  can_sing_together: boolean
 }

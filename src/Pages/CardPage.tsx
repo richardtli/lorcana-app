@@ -10,6 +10,8 @@ import type { SynergySection } from "../types/synergysectiontype";
 import findShiftIntoCards from "../synergies/findShiftIntoCards";
 import findShiftFromCards from "../synergies/findShiftFromCards";
 import findPartnerCards from "../synergies/findPartnerCards";
+import findSongsForMeCards from "../synergies/findSongsForMeCards";
+import findSingersForMeCards from "../synergies/findSingersForMeCards";
 
 export default function CardPage(): JSX.Element | null {
   const { id } = useParams();
@@ -31,6 +33,8 @@ export default function CardPage(): JSX.Element | null {
     const shiftIntoCards = await findShiftIntoCards(selectedCard, searchParams);
     const shiftFromCards = await findShiftFromCards(selectedCard, searchParams)
     const partnerCards = await findPartnerCards(selectedCard, searchParams)
+    const songsForMeCards = await findSongsForMeCards(selectedCard, searchParams)
+    const singersForMeCards = await findSingersForMeCards(selectedCard, searchParams)
 
     const sections: SynergySection[] = [
       {
@@ -45,6 +49,14 @@ export default function CardPage(): JSX.Element | null {
         {
         synergyName: 'Partners',
         cards: partnerCards
+      },
+      {
+        synergyName: 'Songs for Me',
+        cards: songsForMeCards
+      },
+      {
+        synergyName: 'Singers for Me',
+        cards: singersForMeCards
       }
 
     ];
@@ -58,6 +70,7 @@ export default function CardPage(): JSX.Element | null {
       .select("*")
       .eq("unique_id", id)
       .maybeSingle();
+    console.log(data)
 
     if (error || !data) {
       console.error(error);
