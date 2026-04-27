@@ -12,6 +12,7 @@ import findShiftFromCards from "../synergies/findShiftFromCards";
 import findPartnerCards from "../synergies/findPartnerCards";
 import findSongsForMeCards from "../synergies/findSongsForMeCards";
 import findSingersForMeCards from "../synergies/findSingersForMeCards";
+import findMentionsPrincessCards from "../synergies/findMentionsPrincessCards";
 
 export default function CardPage(): JSX.Element | null {
   const { id } = useParams();
@@ -35,6 +36,9 @@ export default function CardPage(): JSX.Element | null {
     const partnerCards = await findPartnerCards(selectedCard, searchParams)
     const songsForMeCards = await findSongsForMeCards(selectedCard, searchParams)
     const singersForMeCards = await findSingersForMeCards(selectedCard, searchParams)
+    const mentionsPrincessCards = await findMentionsPrincessCards(selectedCard, searchParams)
+
+
 
     const sections: SynergySection[] = [
       {
@@ -45,8 +49,7 @@ export default function CardPage(): JSX.Element | null {
         synergyName: 'Shifts From',
         cards: shiftFromCards
       },
-
-        {
+      {
         synergyName: 'Partners',
         cards: partnerCards
       },
@@ -57,6 +60,10 @@ export default function CardPage(): JSX.Element | null {
       {
         synergyName: 'Singers for Me',
         cards: singersForMeCards
+      },
+      {
+        synergyName: 'Princess Power',
+        cards: mentionsPrincessCards
       }
 
     ];
