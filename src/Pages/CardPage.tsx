@@ -12,8 +12,10 @@ import findShiftFromCards from "../synergies/findShiftFromCards";
 import findPartnerCards from "../synergies/findPartnerCards";
 import findSongsForMeCards from "../synergies/findSongsForMeCards";
 import findSingersForMeCards from "../synergies/findSingersForMeCards";
-import findMentionsOfClassificationCards from "../synergies/findMentionsOfClassificationCards";
+import findCardsLookingForMyClassification from "../synergies/findCardsLookingForMyClassification";
+import findCardsOfClassificationMentioned from "../synergies/findCardsOfClassificationMentioned";
 import { LORCANA_CLASSIFICATIONS } from "../utils/classificationsArray";
+
 
 export default function CardPage(): JSX.Element | null {
   const { id } = useParams();
@@ -37,13 +39,25 @@ export default function CardPage(): JSX.Element | null {
     const partnerCards = await findPartnerCards(selectedCard, searchParams)
     const songsForMeCards = await findSongsForMeCards(selectedCard, searchParams)
     const singersForMeCards = await findSingersForMeCards(selectedCard, searchParams)
-    const mentionsPrincessCards = await findMentionsOfClassificationCards(selectedCard, searchParams, 'Princess')
 
-const classificationsToSynergySection = await Promise.all(
+const cardsLookingForMyClassificationsToSynergySection = await Promise.all(
   LORCANA_CLASSIFICATIONS.map(async (classification) => {
     return {
-      synergyName: classification,
-      cards: await findMentionsOfClassificationCards(
+      synergyName: `Cards looking for ${classification}s`,
+      cards: await findCardsLookingForMyClassification(
+        selectedCard,
+        searchParams,
+        classification,
+      ),
+    };
+  }),
+);
+
+const cardsOfClassificationsMentionedToSynergySection = await Promise.all(
+  LORCANA_CLASSIFICATIONS.map(async (classification) => {
+    return {
+      synergyName: `${classification}s I'm Looking For`,
+      cards: await findCardsOfClassificationMentioned(
         selectedCard,
         searchParams,
         classification,
@@ -73,7 +87,9 @@ const sections: SynergySection[] = [
     synergyName: "Singers for Me",
     cards: singersForMeCards,
   },
-  ...classificationsToSynergySection,
+  ...cardsOfClassificationsMentionedToSynergySection,
+  ...cardsLookingForMyClassificationsToSynergySection,
+  
 ];
 
 setSynergySectionsArray(sections);
@@ -85,7 +101,7 @@ setSynergySectionsArray(sections);
       .select("*")
       .eq("unique_id", id)
       .maybeSingle();
-    console.log(data)
+    //console.log(data)
 
     if (error || !data) {
       console.error(error);

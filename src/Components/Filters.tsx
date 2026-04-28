@@ -91,10 +91,12 @@ function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
   const iconElements = inkColors.map((color) => {
     return (
       <img
+        key={color}
         onClick={() => toggleInk(color)}
-       className={classNames("ink-icon", {
-        selected: selectedColors.includes(color),
-      })}
+        className={classNames("ink-icon", {
+          selected: selectedColors.includes(color),
+        })}
+        data-ink-color={color.toLowerCase()}
         src={inkIconMap[color]}
         alt={`${color} Ink`}
       />

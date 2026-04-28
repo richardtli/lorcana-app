@@ -1,3 +1,5 @@
+import type { LorcanaKeyword } from "./keywordsType"
+
 export type CardType = {
   id: string
   unique_id: string
@@ -17,7 +19,8 @@ export type CardType = {
   gamemode: string
   classification_text: string
   classifications: string[]
-  abilities: any | null
+  keywords: LorcanaKeyword[] | null
+  abilities: string[] | null
   body_text: string
   flavor_text: string
   cost: number
@@ -26,7 +29,7 @@ export type CardType = {
   strength: number
   willpower: number
   image_url: string
-  shiftable: boolean
+  is_shift: boolean
   shift_cost: number | null
   shift_from: string[] | null
   storage_bucket: string
@@ -34,7 +37,7 @@ export type CardType = {
   date_added: string
   date_modified: string
   specific_mentions: string[] | null
-  is_a_singer: boolean
+  is_singer: boolean
   sing_number: number | null
   can_sing_together: boolean
 
@@ -70,7 +73,6 @@ export type CardType = {
   mentions_racer: boolean
   mentions_robot: boolean
   mentions_seven_dwarfs: boolean
-  mentions_song: boolean
   mentions_sorcerer: boolean
   mentions_storyborn: boolean
   mentions_super: boolean

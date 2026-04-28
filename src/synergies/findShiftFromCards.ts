@@ -8,7 +8,7 @@ export default async function findShiftIntoCards(
   searchParams: URLSearchParams,
 ): Promise<CardType[]> {
 
-  if(!selectedCard.shiftable){
+  if(!selectedCard.is_shift){
     return []
   }
 

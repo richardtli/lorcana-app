@@ -17,7 +17,7 @@ export default async function findSingersForMeCards(
 let query = supabase
   .from(lorcana_cards_table)
   .select("*")
-  .eq("is_a_singer", true);
+  .eq("is_singer", true);
 
 if (!selectedCard.can_sing_together) {
   query = query

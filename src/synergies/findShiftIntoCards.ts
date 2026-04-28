@@ -13,7 +13,7 @@ export default async function findShiftIntoCards(
     .eq("base_name", selectedCard.base_name)
     .neq("unique_id", selectedCard.unique_id);
 
-  query = query.eq("shiftable", 'true');
+  query = query.eq("is_shift", 'true');
 
   query = filterQuery(searchParams, query)
 

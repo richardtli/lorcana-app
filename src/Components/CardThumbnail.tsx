@@ -12,9 +12,15 @@ export default function CardThumbnail({card}: CardThumbnailProps){
   const imagePathFull = `${imagePathBaseURL}/${card.storage_image_path}`
   return (
     <Link to={`../card/${card.unique_id}?${searchParams.toString()}`}>
-      <img className='card-thumbnail' src={imagePathFull} alt="card-image" loading="lazy"
-  decoding="async" />
+      <img
+        className='card-thumbnail'
+        data-ink-color={card.color[0]?.toLowerCase()}
+        data-second-ink-color={card.color[1]?.toLowerCase()}
+        src={imagePathFull}
+        alt="card-image"
+        loading="lazy"
+        decoding="async"
+      />
     </Link>
   )
 }
-

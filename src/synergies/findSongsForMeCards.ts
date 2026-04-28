@@ -8,7 +8,7 @@ export default async function findSongsForMeCards(
   searchParams: URLSearchParams,
 ): Promise<CardType[]> {
 
-    if(!selectedCard.is_a_singer){
+    if(!selectedCard.is_singer){
         return []
     }
     const selectedCost = selectedCard.cost

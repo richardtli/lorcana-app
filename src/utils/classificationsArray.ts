@@ -31,7 +31,6 @@ export const LORCANA_CLASSIFICATIONS: string[] = [
   "Racer",
   "Robot",
   "Seven Dwarfs",
-  "Song",
   "Sorcerer",
   "Storyborn",
   "Super",
