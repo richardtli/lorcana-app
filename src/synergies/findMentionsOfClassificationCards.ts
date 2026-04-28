@@ -11,7 +11,7 @@ export default async function findMentionsOfClassificationCards(
 
     const isClassification: boolean = selectedCard.classifications?.includes(classification)
     const classificationLowerCase = classification.toLowerCase()
-        const mentionsClassification: boolean = selectedCard[`mentions_${classificationLowerCase}`]
+    const mentionsClassification: boolean = selectedCard[`mentions_${classificationLowerCase}`]
 
 
     if(!mentionsClassification && !isClassification){

@@ -105,12 +105,12 @@ setSynergySectionsArray(sections);
     return <div>Loading...</div>;
   }
   return (
-    <>
+    <div className="card-page-layout">
       <CardData cardData={selectedCard} />
       <div className="synergies-section">
         <Filters cardData={selectedCard} />
         <SynergiesDisplay synergySectionsArray={synergySectionsArray} />
       </div>
-    </>
+    </div>
   );
 }

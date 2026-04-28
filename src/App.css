@@ -2,24 +2,29 @@
 
 :root {
     --test-border: 3px solid black;
+    --nav-height: 3rem;
 }
 
 body{
+    margin: 0;
     font-family: 'Roboto'
 }
 
 .app-layout{
     display: grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr;
 }
 
 
 nav {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    min-height: var(--nav-height);
     position: sticky;
     top: 0;
-    height: 100vh;
+    z-index: 20;
+    background: white;
     border: var(--test-border)
 }
 
@@ -41,12 +46,21 @@ a:visited {
   object-fit: cover;
 }
 
+.card-page-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+
 .card-page-info-container {
   display: flex;
+  flex-direction: column;
   padding: 10px;
   border: var(--test-border);
   position: sticky;
-  top: 0;
+  top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height));
   z-index: 10;
   background: white;
 }
@@ -77,6 +91,10 @@ a:visited {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: var(--nav-height);
+    z-index: 15;
+    background: white;
 }
 
 .filter-button{
@@ -106,6 +124,3 @@ a:visited {
   background-color: #333;
   color: white;
 }
-
-
-
