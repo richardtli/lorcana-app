@@ -29,6 +29,29 @@ const inkIconMap = {
   Steel: steelInk,
 };
 
+const sortOptions = [
+  { value: "name_asc", label: "Name: A to Z" },
+  { value: "name_desc", label: "Name: Z to A" },
+  { value: "cost_asc", label: "Cost: Low to High" },
+  { value: "cost_desc", label: "Cost: High to Low" },
+  { value: "set_num_asc", label: "Set Number: Low to High" },
+  { value: "set_num_desc", label: "Set Number: High to Low" },
+];
+
+function getSortCategory(sortValue: string) {
+  return sortValue.split("_")[0];
+}
+
+function getAvailableSortOptions(selectedSortValues: string[]) {
+  const selectedSortCategories = selectedSortValues
+    .filter(Boolean)
+    .map(getSortCategory);
+
+  return sortOptions.filter(
+    (option) => !selectedSortCategories.includes(getSortCategory(option.value)),
+  );
+}
+
 export default function Filters({ cardData }: CardDataProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,6 +60,13 @@ export default function Filters({ cardData }: CardDataProps) {
   const thisFranchise = cardData.franchise;
 
   const sortValue = searchParams.get("sort") ?? "";
+  const secondarySortValue = searchParams.get("secondarySort") ?? "";
+  const tertiarySortValue = searchParams.get("tertiarySort") ?? "";
+  const secondarySortOptions = getAvailableSortOptions([sortValue]);
+  const tertiarySortOptions = getAvailableSortOptions([
+    sortValue,
+    secondarySortValue,
+  ]);
 
   const franchiseSelected = searchParams.get("franchise") === thisFranchise;
 
@@ -48,8 +78,64 @@ function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
 
     if (value) {
       nextParams.set("sort", value);
+
+      if (
+        getSortCategory(nextParams.get("secondarySort") ?? "") ===
+        getSortCategory(value)
+      ) {
+        nextParams.delete("secondarySort");
+      }
+
+      if (
+        getSortCategory(nextParams.get("tertiarySort") ?? "") ===
+        getSortCategory(value)
+      ) {
+        nextParams.delete("tertiarySort");
+      }
     } else {
       nextParams.delete("sort");
+      nextParams.delete("secondarySort");
+      nextParams.delete("tertiarySort");
+    }
+
+    return nextParams;
+  });
+}
+
+function handleSecondarySortChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  const value = event.target.value;
+
+  setSearchParams((currentParams) => {
+    const nextParams = new URLSearchParams(currentParams);
+
+    if (value && nextParams.get("sort")) {
+      nextParams.set("secondarySort", value);
+
+      if (
+        getSortCategory(nextParams.get("tertiarySort") ?? "") ===
+        getSortCategory(value)
+      ) {
+        nextParams.delete("tertiarySort");
+      }
+    } else {
+      nextParams.delete("secondarySort");
+      nextParams.delete("tertiarySort");
+    }
+
+    return nextParams;
+  });
+}
+
+function handleTertiarySortChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  const value = event.target.value;
+
+  setSearchParams((currentParams) => {
+    const nextParams = new URLSearchParams(currentParams);
+
+    if (value && nextParams.get("sort") && nextParams.get("secondarySort")) {
+      nextParams.set("tertiarySort", value);
+    } else {
+      nextParams.delete("tertiarySort");
     }
 
     return nextParams;
@@ -114,11 +200,34 @@ function handleSortChange(event: React.ChangeEvent<HTMLSelectElement>) {
   From this Franchise
 </button>
       <div className="ink-buttons-container">{iconElements}</div>
+        <div className="sort-selects-container">
         <select value={sortValue} onChange={handleSortChange}>
-            <option value="">Default</option>
-            <option value="name_asc">Name A-Z</option>
-            <option value="name_desc">Name Z-A</option>
+            <option value="">{sortValue ? "Remove Primary Sort" : "Primary Sort"}</option>
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
         </select>
+        <select
+          value={sortValue ? secondarySortValue : ""}
+          onChange={handleSecondarySortChange}
+          disabled={!sortValue}
+        >
+            <option value="">{secondarySortValue ? "Remove Secondary Sort" : "Secondary Sort"}</option>
+            {secondarySortOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+        </select>
+        <select
+          value={sortValue && secondarySortValue ? tertiarySortValue : ""}
+          onChange={handleTertiarySortChange}
+          disabled={!sortValue || !secondarySortValue}
+        >
+            <option value="">{tertiarySortValue ? "Remove Tertiary Sort" : "Tertiary Sort"}</option>
+            {tertiarySortOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+        </select>
+        </div>
     </div>
   );
 }

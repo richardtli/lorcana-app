@@ -22,9 +22,6 @@ let query = supabase
   .or(partnerFilters.join(","))
   .neq("unique_id", selectedCard.unique_id);
 
-
-    
-
   query = filterQuery(searchParams, query)
 
   const { data, error } = await query;

@@ -16,6 +16,7 @@ const synergySectionsElements = synergySectionsArray
             <SynergyContainer
                 synergyName={section.synergyName}
                 cards={section.cards}
+                totalCards={section.totalCards}
             />
         )
     })

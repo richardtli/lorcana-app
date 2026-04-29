@@ -42,26 +42,32 @@ export default function CardPage(): JSX.Element | null {
 
 const cardsLookingForMyClassificationsToSynergySection = await Promise.all(
   LORCANA_CLASSIFICATIONS.map(async (classification) => {
+    const result = await findCardsLookingForMyClassification(
+      selectedCard,
+      searchParams,
+      classification,
+    );
+
     return {
       synergyName: `Cards looking for ${classification}s`,
-      cards: await findCardsLookingForMyClassification(
-        selectedCard,
-        searchParams,
-        classification,
-      ),
+      cards: result.cards,
+      totalCards: result.totalCards,
     };
   }),
 );
 
 const cardsOfClassificationsMentionedToSynergySection = await Promise.all(
   LORCANA_CLASSIFICATIONS.map(async (classification) => {
+    const result = await findCardsOfClassificationMentioned(
+      selectedCard,
+      searchParams,
+      classification,
+    );
+
     return {
       synergyName: `${classification}s I'm Looking For`,
-      cards: await findCardsOfClassificationMentioned(
-        selectedCard,
-        searchParams,
-        classification,
-      ),
+      cards: result.cards,
+      totalCards: result.totalCards,
     };
   }),
 );
@@ -70,22 +76,27 @@ const sections: SynergySection[] = [
   {
     synergyName: "Shifts Into",
     cards: shiftIntoCards,
+    totalCards: shiftIntoCards.length,
   },
   {
     synergyName: "Shifts From",
     cards: shiftFromCards,
+    totalCards: shiftFromCards.length,
   },
   {
     synergyName: "Partners",
     cards: partnerCards,
+    totalCards: partnerCards.length,
   },
   {
     synergyName: "Songs for Me",
     cards: songsForMeCards,
+    totalCards: songsForMeCards.length,
   },
   {
     synergyName: "Singers for Me",
     cards: singersForMeCards,
+    totalCards: singersForMeCards.length,
   },
   ...cardsOfClassificationsMentionedToSynergySection,
   ...cardsLookingForMyClassificationsToSynergySection,
@@ -120,9 +131,14 @@ setSynergySectionsArray(sections);
   if (!selectedCard || !synergySectionsArray) {
     return <div>Loading...</div>;
   }
+
+  const visibleSynergyNames = synergySectionsArray
+    .filter((section) => section.cards.length > 0)
+    .map((section) => section.synergyName);
+
   return (
     <div className="card-page-layout">
-      <CardData cardData={selectedCard} />
+      <CardData cardData={selectedCard} synergyNames={visibleSynergyNames} />
       <div className="synergies-section">
         <Filters cardData={selectedCard} />
         <SynergiesDisplay synergySectionsArray={synergySectionsArray} />

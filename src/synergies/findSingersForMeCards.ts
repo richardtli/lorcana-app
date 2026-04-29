@@ -25,10 +25,6 @@ if (!selectedCard.can_sing_together) {
     .gte("sing_number", selectedCost);
 }
     
-
-
-    
-
 query = filterQuery(searchParams, query)
 
   const { data, error } = await query;
