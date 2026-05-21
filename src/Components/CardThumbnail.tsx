@@ -11,7 +11,10 @@ export default function CardThumbnail({card}: CardThumbnailProps){
   const imagePathBaseURL = import.meta.env.VITE_IMAGE_BUCKET_BASE_URL
   const imagePathFull = `${imagePathBaseURL}/${card.storage_image_path}`
   return (
-    <Link to={`../card/${card.unique_id}?${searchParams.toString()}`}>
+    <Link
+      to={`../card/${card.unique_id}?${searchParams.toString()}`}
+      onClick={() => window.scrollTo({ top: 0 })}
+    >
       <img
         className='card-thumbnail'
         data-ink-color={card.color[0]?.toLowerCase()}

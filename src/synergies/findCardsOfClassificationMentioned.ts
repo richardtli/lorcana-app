@@ -7,14 +7,15 @@ import filterQuery from "../utils/filterQuery";
 export default async function findCardsOfClassificationMentioned(
   selectedCard: CardType,
   searchParams: URLSearchParams,
-  classification: string
+  classification: string,
+  limitResults = true,
 ): Promise<SynergyCardsResult> {
   const classificationLowerCase = classification.toLowerCase();
   const mentionsClassificationKey = `mentions_${classificationLowerCase}` as keyof CardType;
   const mentionsClassification: boolean =
     Boolean(selectedCard[mentionsClassificationKey]);
 
-        const showLimit = import.meta.env.VITE_SHOW_LIMIT
+  const showLimit = Number(import.meta.env.VITE_SHOW_LIMIT ?? 15);
 
   if (!mentionsClassification) {
     return { cards: [], totalCards: 0 };
@@ -26,7 +27,9 @@ export default async function findCardsOfClassificationMentioned(
 
   query = filterQuery(searchParams, query);
 
-      query = query.limit(showLimit)
+  if (limitResults) {
+    query = query.limit(showLimit);
+  }
 
   const { data, count, error } = await query;
 

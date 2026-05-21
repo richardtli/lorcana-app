@@ -52,6 +52,16 @@ const cardsLookingForMyClassificationsToSynergySection = await Promise.all(
       synergyName: `Cards looking for ${classification}s`,
       cards: result.cards,
       totalCards: result.totalCards,
+      loadAllCards: async () => {
+        const allCardsResult = await findCardsLookingForMyClassification(
+          selectedCard,
+          searchParams,
+          classification,
+          false,
+        );
+
+        return allCardsResult.cards;
+      },
     };
   }),
 );
@@ -68,6 +78,16 @@ const cardsOfClassificationsMentionedToSynergySection = await Promise.all(
       synergyName: `${classification}s I'm Looking For`,
       cards: result.cards,
       totalCards: result.totalCards,
+      loadAllCards: async () => {
+        const allCardsResult = await findCardsOfClassificationMentioned(
+          selectedCard,
+          searchParams,
+          classification,
+          false,
+        );
+
+        return allCardsResult.cards;
+      },
     };
   }),
 );

@@ -4,6 +4,7 @@ export type SynergySection =  {
     synergyName: string
     cards: CardType[]
     totalCards: number
+    loadAllCards?: () => Promise<CardType[]>
 }
 
 export type SynergyCardsResult = {

@@ -76,6 +76,81 @@ a:hover {
     4px 0 14px rgba(var(--card-border-right-rgb, var(--card-border-left-rgb, 51, 61, 82)), 0.42);
 }
 
+.show-all-cards-button {
+  display: grid;
+  place-items: center;
+  width: 250px;
+  aspect-ratio: 5 / 7;
+  border: var(--app-border-strong);
+  border-radius: 15px;
+  background: var(--app-surface-raised);
+  color: var(--app-text);
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.show-all-cards-button:hover,
+.show-all-cards-button:focus-visible {
+  border-color: var(--app-accent);
+  background: #283146;
+  color: #fff;
+  box-shadow: var(--app-shadow);
+  outline: none;
+}
+
+.all-cards-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.all-cards-overlay {
+  display: grid;
+  gap: 12px;
+  width: min(1200px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 16px;
+  border: var(--app-border-strong);
+  border-radius: 8px;
+  background: var(--app-surface);
+  box-shadow: var(--app-shadow);
+}
+
+.all-cards-overlay-heading {
+  position: sticky;
+  top: -16px;
+  z-index: 1;
+  margin: 0;
+  padding: 0 0 12px;
+  border-bottom: var(--app-border);
+  background: var(--app-surface);
+}
+
+.all-cards-overlay-status {
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.all-cards-overlay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  justify-content: center;
+  gap: 12px;
+}
+
 .card-thumbnail[data-ink-color="amber"] {
   --card-border-left-color: #f2c14e;
   --card-border-left-rgb: 242, 193, 78;

@@ -12,11 +12,15 @@ export default function SynergiesDisplay({ synergySectionsArray }: SynergiesDisp
 const synergySectionsElements = synergySectionsArray
     .filter((section: SynergySection): boolean => section.cards.length > 0)
     .map((section: SynergySection): JSX.Element => {
+        const resultKey = section.cards.map((card) => card.unique_id).join("-");
+
         return (
             <SynergyContainer
+                key={`${section.synergyName}-${section.totalCards}-${resultKey}`}
                 synergyName={section.synergyName}
                 cards={section.cards}
                 totalCards={section.totalCards}
+                loadAllCards={section.loadAllCards}
             />
         )
     })
